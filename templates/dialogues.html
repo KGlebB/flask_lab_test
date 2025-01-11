@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои диалоги</title>
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('home') }}">Главная</a>
+        <a href="{{ url_for('dialogues') }}">Мои диалоги</a>
+        <a href="{{ url_for('new_dialogue') }}">Создать новый диалог</a> <!-- Добавлено -->
+        <a href="{{ url_for('logout') }}">Выйти</a>
+    </nav>
+    <h1>Мои диалоги</h1>
+    <ul>
+        {% for dialogue in dialogues %}
+            <li>
+                <strong>Заголовок:</strong> {{ dialogue.title }}<br>
+                <a href="{{ url_for('continue_dialogue', dialogue_id=dialogue.id) }}">Продолжить диалог</a>
+            </li>
+        {% else %}
+            <li>У вас нет диалогов.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
