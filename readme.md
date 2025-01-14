@@ -7,5 +7,5 @@ pip install Flask-SQLAlchemy Flask-Login
 
 Run:
 ```bash
-python app.py
+python run.py
 ```

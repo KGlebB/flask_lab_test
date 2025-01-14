@@ -1,0 +1,47 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Корпоративный чат-бот{% endblock %}
+
+{% block content %}
+  <h2>Корпоративный чат-бот</h2>
+  <div>
+    <aside>
+      <h4>Все диалоги</h4>
+      <div id="dialogues">
+        {% if current_user.is_authenticated %}
+          {% for dialogue in dialogues %}
+            <div class="dialogue">
+              <a href="{{ url_for('dialogue.all', dialogueId=dialogue.id) }}">{{dialogue.title}}</a>
+            </div>
+          {% else %}
+            <p>Ещё не сохранено ни одного диалога.</p>
+          {% endfor %}
+        {% else %}
+          <p>Зарегистрируйтесь, чтобы сохранить историю диалогов</p>
+        {% endif %}
+      </div>
+    </aside>
+    <content>
+      <div id="messages">
+        {% for message in messages %}
+          <div class="message">
+            <span class="message-user">Вы:</span> {{ message.content }}<br>
+            <span class="message-bot">Бот:</span> {{ message.response }}<br>
+            <small>{{ message.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+          </div>
+        {% else %}
+          <p>Введите сообщение, чтобы начать диалог.</p>
+        {% endfor %}
+      </div>
+      {% if current_user.is_authenticated %}
+        <form method="POST" action="{{ url_for('dialogue.send', dialogueId=request.args.get('dialogueId')) }}">
+          <input type="text" name="message" placeholder="Введите ваше сообщение..." required>
+          <button type="submit">Отправить</button>
+        </form>
+      {% else %}
+        <a href="{{ url_for('user.login') }}" class="button">Войти</a>
+      {% endif %}
+    </content>
+  </div>
+{% endblock %}
+
