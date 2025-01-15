@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Корпоративный чат-бот{% endblock %}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  {% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Корпоративный чат-бот{% endblock %}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    {% block styles %}
+      <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+      {{ bootstrap.load_css() }}
+    {% endblock %}
+  {% endblock %}
 </head>
 <body>
   {% include 'components/header.html' %}
@@ -13,7 +18,8 @@
     {% block content %}{% endblock %}
   </main>
   {% include 'components/footer.html' %}
+  {% block scripts %}
+    {{ bootstrap.load_js() }}
+  {% endblock %}
 </body>
 </html>
-
-

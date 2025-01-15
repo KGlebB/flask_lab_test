@@ -3,45 +3,50 @@
 {% block title %}Корпоративный чат-бот{% endblock %}
 
 {% block content %}
-  <h2>Корпоративный чат-бот</h2>
-  <div>
-    <aside>
-      <h4>Все диалоги</h4>
-      <div id="dialogues">
-        {% if current_user.is_authenticated %}
-          {% for dialogue in dialogues %}
-            <div class="dialogue">
-              <a href="{{ url_for('dialogue.all', dialogueId=dialogue.id) }}">{{dialogue.title}}</a>
-            </div>
+  <div class="container mt-4">
+    <h2 class="mb-4">Корпоративный чат-бот</h2>
+    <div class="row">
+      <aside class="col-md-4">
+        <h4 class="mb-3">Все диалоги</h4>
+        <div id="dialogues" class="list-group">
+          {% if current_user.is_authenticated %}
+            {% for dialogue in dialogues %}
+              <div class="dialogue list-group-item">
+                <a href="{{ url_for('dialogue.all', dialogueId=dialogue.id) }}">{{dialogue.title}}</a>
+              </div>
+            {% else %}
+              <p class="text-muted">Ещё не сохранено ни одного диалога.</p>
+            {% endfor %}
           {% else %}
-            <p>Ещё не сохранено ни одного диалога.</p>
-          {% endfor %}
-        {% else %}
-          <p>Зарегистрируйтесь, чтобы сохранить историю диалогов</p>
-        {% endif %}
-      </div>
-    </aside>
-    <content>
-      <div id="messages">
-        {% for message in messages %}
-          <div class="message">
-            <span class="message-user">Вы:</span> {{ message.content }}<br>
-            <span class="message-bot">Бот:</span> {{ message.response }}<br>
-            <small>{{ message.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+            <p class="text-muted">Зарегистрируйтесь, чтобы начать диалог</p>
+          {% endif %}
+        </div>
+      </aside>
+      <content class="col-md-8">
+        {% if current_user.is_authenticated %}
+          <div id="messages" class="mb-4">
+            {% for message in messages %}
+              <div class="message mb-3 p-2 border rounded">
+                <span class="message-user font-weight-bold">Вы:</span> {{ message.content }}<br>
+                <span class="message-bot font-weight-bold">Бот:</span> {{ message.response }}<br>
+                <small class="text-muted">{{ message.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+              </div>
+            {% else %}
+              <p class="text-muted">Введите сообщение, чтобы начать диалог.</p>
+            {% endfor %}
           </div>
+          <form method="POST" action="{{ url_for('dialogue.send', dialogueId=request.args.get('dialogueId')) }}">
+            <div class="input-group mb-3">
+              <input type="text" name="message" class="form-control" placeholder="Введите ваше сообщение..." required>
+              <button class="btn btn-primary" type="submit">Отправить</button>
+            </div>            
+          </form>
         {% else %}
-          <p>Введите сообщение, чтобы начать диалог.</p>
-        {% endfor %}
-      </div>
-      {% if current_user.is_authenticated %}
-        <form method="POST" action="{{ url_for('dialogue.send', dialogueId=request.args.get('dialogueId')) }}">
-          <input type="text" name="message" placeholder="Введите ваше сообщение..." required>
-          <button type="submit">Отправить</button>
-        </form>
-      {% else %}
-        <a href="{{ url_for('user.login') }}" class="button">Войти</a>
-      {% endif %}
-    </content>
+          <a href="{{ url_for('user.login') }}" class="btn btn-primary">Войти</a>
+          <a href="{{ url_for('user.register') }}" class="btn btn-primary">Зарегистрироваться</a>
+        {% endif %}
+      </content>
+    </div>
   </div>
 {% endblock %}
 

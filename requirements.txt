@@ -1,5 +1,6 @@
 Flask
 Flask-SQLAlchemy
 Flask-Login
+Bootstrap-Flask
 scikit-learn
 numpy
