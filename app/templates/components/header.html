@@ -4,10 +4,13 @@
       <a class="navbar-brand" href="#">Корпоративный чат-бот</a>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link {% if request.path == url_for('dialogue.all') %}active{% endif %}" href="{{ url_for('dialogue.all') }}">Главная</a>
+          <a class="nav-link {% if request.path == url_for('main.index') %}active{% endif %}" href="{{ url_for('main.index') }}">Главная</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if request.path == url_for('dialogue.about') %}active{% endif %}" href="{{ url_for('dialogue.about') }}">О разработчике</a>
+          <a class="nav-link {% if request.path == url_for('main.about') %}active{% endif %}" href="{{ url_for('main.about') }}">О разработчике</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == url_for('dialogue.all') %}active{% endif %}" href="{{ url_for('dialogue.all') }}">Чат-бот</a>
         </li>
       </ul>
       <ul class="navbar-nav">

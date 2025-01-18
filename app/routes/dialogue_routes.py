@@ -1,12 +1,11 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, abort, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from app.services.dialogue_service import DialogueService
 
 dialogue_bp = Blueprint('dialogue', __name__)
 dialogue_service = DialogueService()
 
-@dialogue_bp.route('/')
-@dialogue_bp.route('/index')
+@dialogue_bp.route('/chat')
 def all():
   dialogue_id = request.args.get('dialogueId')
   dialogues = []
@@ -18,12 +17,8 @@ def all():
       if dialogue.user_id == current_user.id:
         messages = dialogue_service.get_messages(dialogue_id)
       else:
-        return "Запрщено просматривать чужие диалоги.", 403
-  return render_template('pages/home.html', dialogues=dialogues, messages=messages)
-
-@dialogue_bp.route('/about')
-def about():
-  return render_template('pages/about.html')
+        return abort(403, description="Запрещено просматривать чужие диалоги.")
+  return render_template('pages/chat.html', dialogues=dialogues, messages=messages)
 
 @dialogue_bp.route('/send', methods=['POST'])
 @login_required

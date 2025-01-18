@@ -27,7 +27,12 @@ def create_app():
 
   from .routes.user_routes import user_bp
   from .routes.dialogue_routes import dialogue_bp
+  from .routes.main_routes import main_bp
   app.register_blueprint(user_bp)
   app.register_blueprint(dialogue_bp)
+  app.register_blueprint(main_bp)
+
+  from .error_handlers import register_error_handlers
+  register_error_handlers(app)
 
   return app
