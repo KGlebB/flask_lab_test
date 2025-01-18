@@ -1,5 +1,5 @@
 from app import db
-from app.models import User
+from app.models import Role, User
 
 class UserService:
   _instance = None
@@ -12,10 +12,16 @@ class UserService:
   def create_user(self, username, password):
     if User.query.filter_by(username=username).first():
       return False
-    new_user = User(username=username, password=password)
+    new_user = User(username=username)
+    new_user.set_password(password)
+    defaultRole = Role.query.filter_by(name='User').first()
+    new_user.roles.append(defaultRole)
     db.session.add(new_user)
     db.session.commit()
     return True
 
   def authenticate_user(self, username, password):
-    return User.query.filter_by(username=username, password=password).first()
+    user = User.query.filter_by(username=username).first()
+    if user and user.check_password(password):
+      return user
+    return None

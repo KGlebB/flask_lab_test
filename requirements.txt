@@ -5,3 +5,5 @@ Bootstrap-Flask
 scikit-learn
 numpy
 Flask-Migrate
+Flask-Security
+Flask-Admin

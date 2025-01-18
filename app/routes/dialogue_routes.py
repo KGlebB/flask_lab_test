@@ -1,4 +1,4 @@
-from flask import Blueprint, abort, render_template, request, redirect, url_for, flash
+from flask import Blueprint, abort, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 from app.services.dialogue_service import DialogueService
 

@@ -1,0 +1,9 @@
+{% extends 'admin/base.html' %}
+{% block access_control %}
+  {% if current_user.is_authenticated %}
+    <div class="btn-group pull-right">
+      <a class="btn" href="{{ url_for('main.index') }}">На сайт</a>
+      <a class="btn" href="{{ url_for('user.logout') }}">Выйти</a>
+    </div>
+  {% endif %}
+{% endblock %}

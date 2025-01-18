@@ -1,6 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
-from flask_login import login_required, current_user
-from app.services.dialogue_service import DialogueService
+from flask import Blueprint, render_template
 
 main_bp = Blueprint('main', __name__)
 
