@@ -30,14 +30,9 @@ def about():
 def send():
   dialogue_id = request.args.get('dialogueId')
   message = request.form['message']
-  try:
-    if dialogue_id is not None:
-      dialogue = dialogue_service.get_dialogue(dialogue_id)
-    else:
-      dialogue = dialogue_service.create_dialogue(current_user.id)
-    dialogue_service.process_message(message, dialogue)
-    flash("Сообщение успешно отправлено!", "success")
-    return redirect(url_for('dialogue.all', dialogueId=dialogue.id))
-  except Exception as e:
-    flash(f"Возникла ошибка: {str(e)}", "error")
-    return redirect(url_for('dialogue.all'))
+  if dialogue_id is not None:
+    dialogue = dialogue_service.get_dialogue(dialogue_id)
+  else:
+    dialogue = dialogue_service.create_dialogue(current_user.id)
+  dialogue_service.process_message(message, dialogue)
+  return redirect(url_for('dialogue.all', dialogueId=dialogue.id))
